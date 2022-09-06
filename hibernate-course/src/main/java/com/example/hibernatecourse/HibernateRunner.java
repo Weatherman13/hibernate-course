@@ -32,26 +32,16 @@ public class HibernateRunner {
                             .build())
                     .company(company)
                     .build();
+            var user1 = session.get(User.class, 1l);
 
-//            var user1 = session.get(User.class, "petr132@gmail.com");
-            session.save(company);
-            session.save(user);
-//            session.get(User.class, 1);
+//            session.save(company);
+//            session.save(user);
+
             session.getTransaction().commit();
 
         } catch (HibernateException e) {
             throw new RuntimeException(e);
         }
 
-//        try (SessionFactory sessionFactory = configuration.buildSessionFactory();
-//             Session session = sessionFactory.openSession();) {
-//            PersonalData key = PersonalData.builder()
-//                    .firstname("Alexey")
-//                    .lastname("Serov")
-//                    .birthDate(LocalDate.of(2000, 1, 2))
-//                    .build();
-//            User user2 = session.get(User.class, key);
-//        } catch (Exception e) {
-//        }
     }
 }

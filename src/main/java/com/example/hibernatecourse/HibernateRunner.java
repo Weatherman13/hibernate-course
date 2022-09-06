@@ -34,12 +34,7 @@ public class HibernateRunner {
                     .company(company)
                     .build();
             var user1 = session.get(User.class, 1l);
-            var company1 = user1.getCompany();
-            String name = company.getName();
-            Hibernate.unproxy(company1);
-
-//            session.save(company);
-//            session.save(user);
+            session.evict(user1);
 
             session.getTransaction().commit();
 

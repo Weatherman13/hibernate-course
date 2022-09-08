@@ -10,12 +10,7 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-
-// TODO: 08.09.2022 Так как Set - это интерфейс, то его стандартная реализация это HashSet, где используется equals и hashCode
-// TODO: 08.09.2022 Поэтому при маппинге возникает циклическая зависимость. Именно потому мы исключили поле users для этих методов
-
-// TODO: 08.09.2022 При таком маппинге лучше делать exclude на списке, чем на сущности
-@EqualsAndHashCode(exclude = "users")
+@EqualsAndHashCode(of = "name")
 @ToString(exclude = "users")
 @Builder
 @Entity

@@ -7,6 +7,7 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(of = "username")
 @ToString(exclude = "company")
 @Builder
 @Entity
@@ -21,7 +22,7 @@ public class User {
     @AttributeOverride(name = "birthDate", column = @Column(name = "birth_date"))
     private PersonalData data;
 
-    @Column(unique = true)
+    @Column(nullable = false, unique = true)
     private String username;
 
     @Enumerated(EnumType.STRING)

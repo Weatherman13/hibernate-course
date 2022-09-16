@@ -4,6 +4,7 @@ import com.example.hibernatecourse.entity.Company;
 import com.example.hibernatecourse.entity.User;
 import com.example.hibernatecourse.utils.HibernateUtil;
 import lombok.Cleanup;
+import org.hibernate.Hibernate;
 import org.junit.jupiter.api.Test;
 
 import javax.persistence.Column;
@@ -17,6 +18,37 @@ import static java.util.stream.Collectors.joining;
 
 class HibernateRunnerTest {
 
+    @Test
+    void checkLazyInitialisation(){
+        Company company = null;
+        try (var  sessionFactory = HibernateUtil.buildSessionFactory();
+        var session = sessionFactory.openSession()){
+            session.beginTransaction();
+
+            company = session.get(Company.class,1);
+//            Hibernate.initialize(company.getUsers());
+
+            session.getTransaction().commit();
+        }
+        // TODO: 16.09.2022 Выпадет ошибка, т.к. мы пытаемся получить объект которого нет. Там прокси Hibernate-а
+        var users = company.getUsers();
+        System.out.println(users.size());
+    }
+
+    @Test
+    void checkLazyInitialisationProxy(){
+        Company company = null;
+        try (var  sessionFactory = HibernateUtil.buildSessionFactory();
+             var session = sessionFactory.openSession()){
+            session.beginTransaction();
+
+            company = session.getReference(Company.class,1);
+//            Hibernate.initialize(company.getUsers());
+
+            session.getTransaction().commit();
+        }
+        System.out.println(company);
+    }
     @Test
     void OneToMany(){
         @Cleanup var sessionFactory = HibernateUtil.buildSessionFactory();

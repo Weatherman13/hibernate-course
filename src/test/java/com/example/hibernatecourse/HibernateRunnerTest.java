@@ -19,6 +19,22 @@ import static java.util.stream.Collectors.joining;
 class HibernateRunnerTest {
 
     @Test
+    void checkOrhanRemoval(){
+
+        try (var  sessionFactory = HibernateUtil.buildSessionFactory();
+             var session = sessionFactory.openSession()){
+            session.beginTransaction();
+
+            var company = session.get(Company.class,1);
+            // TODO: 16.09.2022 OrphanRemoval можем удалять сущность из базы не только с помощью сервиса, но
+            // TODO: 16.09.2022 OrphanRemoval но и из коллекции в другой сущности
+            company.getUsers().removeIf(user -> user.getId().equals(1l));
+
+            session.getTransaction().commit();
+        }
+    }
+
+    @Test
     void checkLazyInitialisation(){
         Company company = null;
         try (var  sessionFactory = HibernateUtil.buildSessionFactory();

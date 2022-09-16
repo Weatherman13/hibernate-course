@@ -25,8 +25,9 @@ public class Company {
     private Integer id;
 
     private String name;
-
-    @OneToMany(mappedBy = "company")
+    // TODO: 16.09.2022 OrphanRemoval позволяет
+    //  удалять юзеров напрямую из сущности, а не из сервиса Юзеров.
+    @OneToMany(mappedBy = "company", orphanRemoval = true)
 //    @JoinColumn(name = "company_id")
     private Set<User> users;
 

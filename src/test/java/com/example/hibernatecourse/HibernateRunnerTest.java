@@ -22,21 +22,21 @@ class HibernateRunnerTest {
     void checkOneToOne() {
         try (var sessionFactory = HibernateUtil.buildSessionFactory();
              var session = sessionFactory.openSession()) {
-           var user =  session.get(User.class,4l);
-            System.out.println(user);
-//            session.beginTransaction();
-//
-//            var user = User.builder()
-//                    .username("test2@mail.com")
-//                    .build();
-//            var profile = Profile.builder()
-//                    .language("ru")
-//                    .street("Kolasa 18")
-//                    .build();
-//
-//            session.save(user);
-//            profile.setUser(user);
-//            session.save(profile);
+
+            session.beginTransaction();
+
+            var user = User.builder()
+                    .username("test2@ml.com")
+                    .build();
+            var profile = Profile.builder()
+                    .language("ru")
+                    .street("Kolasa 18")
+                    .build();
+
+           profile.setUser(user);
+
+           session.save(user);
+
 
             session.getTransaction().commit();
 

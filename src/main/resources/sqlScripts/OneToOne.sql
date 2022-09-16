@@ -8,8 +8,8 @@ CREATE TABLE users
     role VARCHAR(32),
     company_id INT REFERENCES company (id)
 );
-create table profile (
-                         user_id BIGINT PRIMARY KEY REFERENCES users (id),
+create table profile (  id bigserial primary key ,
+                         user_id BIGINT not null unique references users(id),
                          street varchar(128),
                          language CHAR(2)
 )
@@ -21,3 +21,4 @@ create table company (
 
 drop table company
 drop table users
+drop table profile

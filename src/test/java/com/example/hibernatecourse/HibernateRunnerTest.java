@@ -1,6 +1,7 @@
 package com.example.hibernatecourse;
 
 import com.example.hibernatecourse.entity.Company;
+import com.example.hibernatecourse.entity.Profile;
 import com.example.hibernatecourse.entity.User;
 import com.example.hibernatecourse.utils.HibernateUtil;
 import lombok.Cleanup;
@@ -17,15 +18,39 @@ import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.joining;
 
 class HibernateRunnerTest {
+    @Test
+    void checkOneToOne() {
+        try (var sessionFactory = HibernateUtil.buildSessionFactory();
+             var session = sessionFactory.openSession()) {
+           var user =  session.get(User.class,4l);
+            System.out.println(user);
+//            session.beginTransaction();
+//
+//            var user = User.builder()
+//                    .username("test2@mail.com")
+//                    .build();
+//            var profile = Profile.builder()
+//                    .language("ru")
+//                    .street("Kolasa 18")
+//                    .build();
+//
+//            session.save(user);
+//            profile.setUser(user);
+//            session.save(profile);
+
+            session.getTransaction().commit();
+
+        }
+    }
 
     @Test
-    void checkOrhanRemoval(){
+    void checkOrhanRemoval() {
 
-        try (var  sessionFactory = HibernateUtil.buildSessionFactory();
-             var session = sessionFactory.openSession()){
+        try (var sessionFactory = HibernateUtil.buildSessionFactory();
+             var session = sessionFactory.openSession()) {
             session.beginTransaction();
 
-            var company = session.get(Company.class,1);
+            var company = session.get(Company.class, 1);
             // TODO: 16.09.2022 OrphanRemoval можем удалять сущность из базы не только с помощью сервиса, но
             // TODO: 16.09.2022 OrphanRemoval но и из коллекции в другой сущности
             company.getUsers().removeIf(user -> user.getId().equals(1l));
@@ -35,13 +60,13 @@ class HibernateRunnerTest {
     }
 
     @Test
-    void checkLazyInitialisation(){
+    void checkLazyInitialisation() {
         Company company = null;
-        try (var  sessionFactory = HibernateUtil.buildSessionFactory();
-        var session = sessionFactory.openSession()){
+        try (var sessionFactory = HibernateUtil.buildSessionFactory();
+             var session = sessionFactory.openSession()) {
             session.beginTransaction();
 
-            company = session.get(Company.class,1);
+            company = session.get(Company.class, 1);
 //            Hibernate.initialize(company.getUsers());
 
             session.getTransaction().commit();
@@ -52,21 +77,22 @@ class HibernateRunnerTest {
     }
 
     @Test
-    void checkLazyInitialisationProxy(){
+    void checkLazyInitialisationProxy() {
         Company company = null;
-        try (var  sessionFactory = HibernateUtil.buildSessionFactory();
-             var session = sessionFactory.openSession()){
+        try (var sessionFactory = HibernateUtil.buildSessionFactory();
+             var session = sessionFactory.openSession()) {
             session.beginTransaction();
 
-            company = session.getReference(Company.class,1);
+            company = session.getReference(Company.class, 1);
 //            Hibernate.initialize(company.getUsers());
 
             session.getTransaction().commit();
         }
         System.out.println(company);
     }
+
     @Test
-    void OneToMany(){
+    void OneToMany() {
         @Cleanup var sessionFactory = HibernateUtil.buildSessionFactory();
         @Cleanup var session = sessionFactory.openSession();
 

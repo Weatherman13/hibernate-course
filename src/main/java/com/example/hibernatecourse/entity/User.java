@@ -1,13 +1,14 @@
 package com.example.hibernatecourse.entity;
 
 import lombok.*;
+import net.bytebuddy.asm.Advice;
 
 import javax.persistence.*;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude = "company")
+@ToString(exclude = {"company", "profile"})
 @Builder
 @Entity
 @Table(name = "users", schema = "public")
@@ -26,6 +27,9 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Profile profile;
 
     // TODO: 06.09.2022 не использовать Cascade Type при child - parent зависимостях
     // TODO: 06.09.2022 в таком случае нельзя использовать отдельные каскады, но можно ALL (костыль), хотя и нежелательно

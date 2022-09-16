@@ -14,6 +14,7 @@
 
       <mapping class="com.example.hibernatecourse.entity.User"/>
       <mapping class="com.example.hibernatecourse.entity.Company"/>
+      <mapping class="com.example.hibernatecourse.entity.Profile"/>
 
 
     <!-- DB schema will be updated if needed -->

@@ -1,8 +1,6 @@
 package com.example.hibernatecourse;
 
-import com.example.hibernatecourse.entity.Company;
-import com.example.hibernatecourse.entity.Profile;
-import com.example.hibernatecourse.entity.User;
+import com.example.hibernatecourse.entity.*;
 import com.example.hibernatecourse.utils.HibernateUtil;
 import lombok.Cleanup;
 import org.hibernate.Hibernate;
@@ -11,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import javax.persistence.Column;
 import javax.persistence.Table;
 import java.lang.reflect.Field;
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
@@ -18,6 +17,32 @@ import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.joining;
 
 class HibernateRunnerTest {
+    @Test
+    void checkManyToMany() {
+        try (var sessionFactory = HibernateUtil.buildSessionFactory();
+             var session = sessionFactory.openSession()) {
+
+            session.beginTransaction();
+
+//
+
+            var user = session.get(User.class, 10000L);
+            var chat = session.get(Chat.class, 1l);
+
+            var userChat = UserChat.builder()
+                    .createdBy(user.getUsername())
+                    .createdAt(Instant.now())
+                    .build();
+            userChat.setUser(user);
+            userChat.setChat(chat);
+
+            session.save(userChat);
+
+
+            session.getTransaction().commit();
+
+        }
+    }
     @Test
     void checkOneToOne() {
         try (var sessionFactory = HibernateUtil.buildSessionFactory();

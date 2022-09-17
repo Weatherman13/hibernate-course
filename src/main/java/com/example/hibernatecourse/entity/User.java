@@ -4,11 +4,14 @@ import lombok.*;
 import net.bytebuddy.asm.Advice;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude = {"company", "profile"})
+@EqualsAndHashCode(of = "username")
+@ToString(exclude = {"company", "profile","userChats"})
 @Builder
 @Entity
 @Table(name = "users", schema = "public")
@@ -37,5 +40,9 @@ public class User {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "company_id")
     private Company company;
+
+    @Builder.Default
+    @OneToMany(mappedBy = "user")
+    private Set<UserChat> userChats = new HashSet<>();
 
 }

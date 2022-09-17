@@ -24,6 +24,7 @@ public class HibernateRunner {
             session.beginTransaction();
 
             var company = Company.builder().name("Sitronics").build();
+
             User user = User.builder()
                     .username("petr132@gmail.com")
                     .data(PersonalData.builder()

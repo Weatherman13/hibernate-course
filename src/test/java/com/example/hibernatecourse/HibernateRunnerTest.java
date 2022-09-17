@@ -17,6 +17,22 @@ import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.joining;
 
 class HibernateRunnerTest {
+
+    @Test
+    void localeInfo(){
+        try (var sessionFactory = HibernateUtil.buildSessionFactory();
+             var session = sessionFactory.openSession()) {
+
+            session.beginTransaction();
+
+            var company = session.get(Company.class, 1);
+            company.getLocales().add(LocaleInfo.of("ru", "русское описание"));
+            company.getLocales().add(LocaleInfo.of("en", "english description"));
+
+            session.getTransaction().commit();
+
+        }
+    }
     @Test
     void checkManyToMany() {
         try (var sessionFactory = HibernateUtil.buildSessionFactory();

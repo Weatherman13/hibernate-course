@@ -17,6 +17,8 @@
       <mapping class="com.example.hibernatecourse.entity.Profile"/>
       <mapping class="com.example.hibernatecourse.entity.Chat"/>
       <mapping class="com.example.hibernatecourse.entity.UserChat"/>
+      <mapping class="com.example.hibernatecourse.entity.Manager"/>
+      <mapping class="com.example.hibernatecourse.entity.Programmer"/>
 
 
     <!-- DB schema will be updated if needed -->

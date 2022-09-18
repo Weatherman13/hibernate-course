@@ -14,11 +14,11 @@ import java.util.Set;
 @ToString(exclude = {"company", "profile","userChats"})
 @Builder
 @Entity
-@Table(name = "users", schema = "public")
-public class User {
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+public abstract class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
 //    @EmbeddedId
@@ -41,7 +41,6 @@ public class User {
     @JoinColumn(name = "company_id")
     private Company company;
 
-    @Builder.Default
     @OneToMany(mappedBy = "user")
     private Set<UserChat> userChats = new HashSet<>();
 
